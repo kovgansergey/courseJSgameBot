@@ -13,27 +13,40 @@ function gameBot () {
   let botsNumber = randomInteger(1, 100);
   let usersNumber = prompt('Угадай число от 1 до 100');
   
-  function game(num) {
-    if (num === null) {
+  function game(num, i) {
+    if (+num === botsNumber) {
+      if (confirm('Поздравляю, Вы угадали!!! Хотели бы сыграть еще?')) {
+        gameBot();
+      } else {
+        alert('До свидания');
+        return;
+      }
+    } else if (i <= 0) {
+      if (confirm('Попытки закончились, хотите сыграть еще?')) {
+        gameBot();
+      } else {
+        alert('До свидания');
+        return;
+      }
+    } else if (num === null) {
+      alert('До свидания');
       return;
     } else if (!isNumber(num)) {
       alert('Введи число!');
       usersNumber = prompt('Введи новый вариант.');
-      game(usersNumber);
+      game(usersNumber, i);
     } else if (+num > botsNumber) {
-      alert('Загаданное число меньше.');
+      alert('Загаданное число меньше, осталось попыток ' + i);
       usersNumber = prompt('Введи новый вариант.');
-      game(usersNumber);
+      game(usersNumber, --i);
     } else if (+num < botsNumber) {
-      alert('Загаданное число больше.');
+      alert('Загаданное число больше, осталось попыток ' + i);
       usersNumber = prompt('Введи новый вариант.');
-      game(usersNumber);
-    } else {
-      alert('Правильно! Ты угадал. Было загадано число: ' + num);
+      game(usersNumber, --i);
     }
   }
 
-  game(usersNumber);
+  game(usersNumber, 9);
 }
 
 gameBot();
